@@ -1,0 +1,95 @@
+{% extends 'user/user_home.html' %}
+{% block content%}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white"></span>
+            <h1 class="text-capitalize mb-5 text-lg">Book Appointment</h1>
+  
+            <!-- <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">Contact Us</a></li>
+            </ul> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- contact form start -->
+  
+  
+  </section>
+  {% if success_message %}
+  <br><br>
+  <center><h3 style="color:green">{{ success_message }}</h3><center>
+  <script>
+      // Display an alert with an "OK" button
+      
+      alert("{{ success_message }}");
+  </script>
+{% endif %}
+</section>
+  <section class="contact-form-wrap section">
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6 col-md-10 ">
+            <div class="appoinment-wrap mt-5 mt-lg-0">
+              {% for i in user_profile %}
+                <h2 class="mb-2 title-color">Book appointment</h2>
+                <p class="mb-4">Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit . Iste dolorum atque similique praesentium soluta.</p>
+                     <form class="appoinment-form" method="post">
+                      {% csrf_token %}
+                      
+                <div class="row">
+                   
+                    
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        User Name
+                          <input name="name" id="name" type="text" value={{i.name}} class="form-control" readonly">
+                      </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      Phone Number
+                        <input name="phn" id="phn" type="number" value="{{i.phn}}" class="form-control" readonly">
+                    </div>
+                </div>
+               
+                     <div class="col-lg-6">
+                        <div class="form-group">
+                            <input name="date" id="date" type="text" onfocus="(this.type='date')" class="form-control" placeholder="dd/mm/yyyy" required>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input name="time" id="time" type="text" class="form-control" placeholder="Time" required>
+                        </div>
+                    </div>
+                     
+
+                    
+                </div>
+                <div class="form-group-2 mb-4">
+                    <textarea name="message" id="message" class="form-control" rows="6" placeholder="Your Message" required></textarea>
+                </div>
+                
+               <button type="submit" class="btn btn-success">submit</button>
+               {% endfor%}
+              <a href="/user_view_hospitals" class="btn btn-secondary">Back</a>
+            </form>
+        </div>
+        </div>
+      </div>
+    </div>
+</div>
+  </section>
+
+{% endblock %}

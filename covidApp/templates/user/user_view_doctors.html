@@ -1,0 +1,100 @@
+{% extends 'user/user_home.html' %}
+{% block content%}
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <span class="text-white"></span>
+                    <h1 class="text-capitalize mb-5 text-lg"> Hospitals</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact-form-wrap section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section-title text-center">
+                    <h2 class="text-md mb-2">View Hospitals</h2>
+                    <div class="divider mx-auto my-4"></div>
+                    <p class="mb-5"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              
+                <form method="post" action="">
+                  {% csrf_token %}
+
+                    <style>
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+
+                        th, td {
+                            border: 1px solid #dddddd;
+                            text-align: left;
+                            padding: 12px;
+                        }
+
+                        th {
+                            background-color: #f2f2f2;
+                        }
+
+                        tbody tr:hover {
+                            background-color: #f5f5f5;
+                        }
+
+                    </style>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SL No</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Designation</th>
+                                <th>Qualification</th>
+                                <th>Experience</th>
+                                <th>Time</th>
+                                <th>Availability</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in doctors %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ i.doc_name }}</td>
+                                <td>{{ i.email }}</td>
+                                <td>{{ i.designation}}</td>
+                                <td>{{ i.qualification }}</td>
+                                <td>{{ i.experience }}</td>
+                                <td>{{ i.time }}</td>
+                                <td>{{ i.availability }}</td>
+                                <td>
+                                {% comment %} <a href="/admin_approve/{{ i.id }}/" class="approve-btn">Approve</a> {% endcomment %}
+                                <a href="/user_book_appointment/{{ i.id }}/" class="btn btn-primary">
+                                    Book Appointment</button></a></td>
+                                 
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

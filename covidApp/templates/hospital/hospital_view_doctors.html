@@ -1,0 +1,52 @@
+<!-- templates/doctors_list.html -->
+
+{% extends 'hospital/hospital_home.html' %}
+{% block content %}
+  <h2>Doctors List</h2>
+
+  {% if doctors %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Doctor Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Qualification</th>
+            <th>Designation</th>
+            <th>Experience</th>
+            <th>Available Time</th>
+            <th>Availability description</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for doctor in doctors %}
+            <tr>
+              <td>{{ doctor.doc_name }}</td>
+              <td>{{ doctor.email }}</td>
+              <td>{{ doctor.phn }}</td>
+              <td>{{ doctor.qualification }}</td>
+              <td>{{ doctor.designation }}</td>
+              <td>{{ doctor.experience }}</td>
+              <td>{{doctor.time}}</td>
+              <td style="width:200px;height:auto">{{doctor.availability}}</td>
+              <td><a href="/hospital_edit_doctor/{{ doctor.id }}" class="btn btn-success">Update</a></td>
+
+              <td>
+                <form method="post" action="/hospital_delete_doctor/{{ doctor.id }}/" onsubmit="return confirmDelete()">
+                    {% csrf_token %}
+                    <span><button type="submit" class="btn btn-danger">Delete</button></span>
+                    <input type="hidden" name="confirm_delete" id="confirm_delete" value="0">
+                    </form>
+              {% comment %} <input type="hidden" name="confirm_delete" id="confirm_delete" value="0"> {% endcomment %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <h3>No doctors available.</h3>
+  {% endif %}
+{% endblock %}

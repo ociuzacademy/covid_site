@@ -1,0 +1,12 @@
+.env
+venv/
+env/
+VENV/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+media/
+staticfiles/

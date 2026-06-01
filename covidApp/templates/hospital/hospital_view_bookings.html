@@ -1,0 +1,97 @@
+{% extends 'hospital/hospital_home.html' %}
+{% block content%}
+
+
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white"></span>
+            <h1 class="text-capitalize mb-5 text-lg">View Appointments</h1>
+  
+            <!-- <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">Contact Us</a></li>
+            </ul> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- contact form start -->
+  
+  
+  <section class="contact-form-wrap section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 ">
+          <div class="appoinment-wrap mt-5 mt-lg-0">
+            <form method="get" action="/hospital_view_bookings/">
+              {% csrf_token %}
+              
+              <label for="selected_date">Select Date:</label>
+              <input type="date" name="selected_date" id="selected_date">
+              
+              <label for="selected_doctor">Select Doctor:</label>
+              <select name="selected_doctor" id="selected_doctor">
+                <option value="" selected>All Doctors</option>
+                {% for doctor in doctors %}
+                  <option value="{{ doctor.id }}">{{ doctor.doc_name }}</option>
+                {% endfor %}
+              </select>
+              
+              <button type="submit">Search</button>
+            </form>
+  
+            {% if bookings %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Patient Name</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <!-- Add more headers as needed -->
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in bookings %}
+                    <tr>
+                      <td>{{ i.user.uname }}</td>
+                      <td>{{ i.doctor.doc_name }}</td>
+                      <td>{{ i.date }}</td>
+                      <td>{{ i.time }}</td>
+                      <td>{{ i.status }}</td>
+                      <td>
+                        <form action="/hospital_approve_booking/{{i.id}}/" method="post" style="display:inline;">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form action="/hospital_reject_booking/{{i.id}}/" method="post" style="display:inline;">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                      </td>
+                      <!-- Add more columns as needed -->
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p>No bookings found.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+
+
+{% endblock %}
