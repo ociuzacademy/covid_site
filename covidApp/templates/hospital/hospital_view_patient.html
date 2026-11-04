@@ -1,111 +1,695 @@
+
 {% extends 'hospital/hospital_home.html' %}
-{% block content%}
+
+{% block content %}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
+
+.patient-page {
+    font-family: 'DM Sans', sans-serif;
+    background: #f5f8fb;
+    color: #263747;
+    min-height: 75vh;
+    padding-bottom: 55px;
+}
+
+/* Page Header */
+.patient-hero {
+    background: linear-gradient(120deg, #173b59, #286b9b, #438eaf);
+    padding: 50px 0 65px;
+    color: white;
+}
+
+.patient-hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.patient-hero h1 {
+    color: white;
+    font-family: 'Manrope', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 10px 0;
+}
+
+.patient-hero p {
+    color: #d7e8f2;
+    font-size: 14px;
+    margin: 0;
+}
+
+.hero-label {
+    color: #c5e5f5;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.hero-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: white;
+}
+
+/* Main Container */
+.patient-container {
+    max-width: 1150px;
+    width: 92%;
+    margin: -25px auto 0;
+    position: relative;
+}
+
+/* Filter Card */
+.filter-card {
+    background: white;
+    border-radius: 15px;
+    padding: 27px;
+    box-shadow: 0 8px 30px rgba(30,60,90,0.07);
+    border: 1px solid #eaf0f5;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 25px;
+}
+
+.heading-icon {
+    width: 43px;
+    height: 43px;
+    background: #eaf4fa;
+    color: #286b9b;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.section-heading h3 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #243b50;
+    margin: 0 0 5px;
+}
+
+.section-heading p {
+    font-size: 12px;
+    color: #8493a1;
+    margin: 0;
+}
+
+.filter-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 18px;
+    align-items: end;
+}
+
+.form-group-custom label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #526579;
+    margin-bottom: 9px;
+}
+
+.form-group-custom input,
+.form-group-custom select {
+    width: 100%;
+    height: 45px;
+    padding: 0 13px;
+    border: 1px solid #dfe7ee;
+    border-radius: 8px;
+    background: #fbfcfe;
+    color: #405368;
+    font-size: 13px;
+    outline: none;
+}
+
+.form-group-custom input:focus,
+.form-group-custom select:focus {
+    border-color: #438eaf;
+    box-shadow: 0 0 0 3px rgba(40,107,155,0.10);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 9px;
+}
+
+.search-btn {
+    height: 45px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    background: #286b9b;
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background: #1d557d;
+}
+
+.reset-btn {
+    height: 45px;
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dfe7ee;
+    border-radius: 8px;
+    color: #61758a;
+    background: white;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.reset-btn:hover {
+    color: #286b9b;
+    border-color: #286b9b;
+    text-decoration: none;
+}
+
+/* Results Section */
+.results-section {
+    margin-top: 35px;
+}
+
+.results-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px;
+}
+
+.results-heading h3 {
+    font-family: 'Manrope', sans-serif;
+    color: #243b50;
+    font-size: 20px;
+    font-weight: 800;
+    margin: 5px 0 0;
+}
+
+.results-label {
+    color: #8998a7;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.result-count {
+    background: #eaf4fa;
+    color: #286b9b;
+    padding: 9px 14px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Patient Table */
+.table-card {
+    background: white;
+    border: 1px solid #eaf0f5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(30,60,90,0.05);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.patient-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.patient-table thead {
+    background: #f5f8fb;
+}
+
+.patient-table th {
+    padding: 17px 16px;
+    color: #718397;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 1px solid #e9eff4;
+}
+
+.patient-table td {
+    padding: 15px 16px;
+    color: #526579;
+    font-size: 12px;
+    border-bottom: 1px solid #eff3f6;
+    vertical-align: middle;
+}
+
+.patient-table tbody tr:hover {
+    background: #fbfdff;
+}
+
+.patient-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.patient-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: #2d4357;
+    white-space: nowrap;
+}
+
+.patient-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #eaf4fa;
+    color: #347ca7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doctor-name {
+    color: #426c88;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.date-value {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.time-badge {
+    background: #edf5fa;
+    color: #47718e;
+    padding: 7px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-size: 11px;
+}
+
+.xray-image {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e1eaf0;
+    display: block;
+}
+
+.xray-link {
+    color: #367ca4;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.xray-link:hover {
+    color: #174f75;
+}
+
+.covid-badge {
+    display: inline-block;
+    background: #e8f7f0;
+    color: #267c61;
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.not-available {
+    color: #a0aab5;
+    font-size: 11px;
+    font-style: italic;
+}
+
+.table-footer {
+    padding: 13px 17px;
+    background: #fbfcfd;
+    border-top: 1px solid #edf1f5;
+    color: #8a98a7;
+    font-size: 11px;
+}
+
+/* Empty State */
+.empty-state {
+    background: white;
+    border: 1px solid #eaf0f5;
+    border-radius: 14px;
+    padding: 55px 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(30,60,90,0.05);
+}
+
+.empty-icon {
+    width: 65px;
+    height: 65px;
+    background: #eaf4fa;
+    color: #4d8eb1;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 18px;
+}
+
+.empty-state h3 {
+    color: #2b4358;
+    font-size: 19px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    color: #8795a3;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+/* Responsive */
+@media(max-width: 767px) {
+    .patient-hero {
+        padding: 35px 0 50px;
+    }
+
+    .patient-hero h1 {
+        font-size: 25px;
+    }
+
+    .hero-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 23px;
+    }
+
+    .filter-card {
+        padding: 20px 16px;
+    }
+
+    .filter-form {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .filter-buttons {
+        width: 100%;
+    }
+
+    .filter-buttons button,
+    .filter-buttons a {
+        flex: 1;
+    }
+
+    .results-heading {
+        align-items: flex-start;
+        gap: 12px;
+        flex-direction: column;
+    }
+}
+
+@media(max-width: 420px) {
+    .hero-icon {
+        display: none;
+    }
+
+    .patient-hero p {
+        line-height: 1.6;
+    }
+
+    .patient-container {
+        width: 94%;
+    }
+}
+</style>
 
 
-<section class="page-title bg-1">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="block text-center">
-            <span class="text-white"></span>
-            <h1 class="text-capitalize mb-5 text-lg">View Patient Details</h1>
-  
-            <!-- <ul class="list-inline breadcumb-nav">
-              <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
-              <li class="list-inline-item"><span class="text-white">/</span></li>
-              <li class="list-inline-item"><a href="#" class="text-white-50">Contact Us</a></li>
-            </ul> -->
-          </div>
+<div class="patient-page">
+
+    <!-- Page Header -->
+    <section class="patient-hero">
+        <div class="container">
+            <div class="patient-hero-content">
+                <div>
+                    <span class="hero-label">
+                        <i class="fa fa-hospital-o"></i> HOSPITAL MANAGEMENT
+                    </span>
+                    <h1>View Patient Details</h1>
+                    <p>Manage patient appointments and access medical records.</p>
+                </div>
+
+                <div class="hero-icon">
+                    <i class="fa fa-heartbeat"></i>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-  <!-- contact form start -->
-  
-  
-  <section class="contact-form-wrap section">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10 ">
-          <div class="appoinment-wrap mt-5 mt-lg-0">
-            <form method="get" action="/hospital_view_patient/">
-              {% csrf_token %}
-              
-              <label for="selected_date">Select Date:</label>
-              <input type="date" name="selected_date" id="selected_date">
-              
-              <label for="selected_doctor">Select Doctor:</label>
-              <select name="selected_doctor" id="selected_doctor">
-                <option value="" selected>All Doctors</option>
-                {% for doctor in doctors %}
-                  <option value="{{ doctor.id }}">{{ doctor.doc_name }}</option>
-                {% endfor %}
-              </select>
-              
-              <button type="submit">Search</button>
+    </section>
+
+
+    <div class="patient-container">
+
+        <!-- Search Filters -->
+        <section class="filter-card">
+
+            <div class="section-heading">
+                <div class="heading-icon">
+                    <i class="fa fa-filter"></i>
+                </div>
+
+                <div>
+                    <h3>Find Appointments</h3>
+                    <p>Filter patient appointments by date or doctor.</p>
+                </div>
+            </div>
+
+            <form method="get" action="/hospital_view_patient/" class="filter-form">
+
+                <div class="form-group-custom">
+                    <label for="selected_date">Select Date</label>
+                    <input type="date"
+                           name="selected_date"
+                           id="selected_date"
+                           value="{{ request.GET.selected_date }}">
+                </div>
+
+                <div class="form-group-custom">
+                    <label for="selected_doctor">Select Doctor</label>
+
+                    <select name="selected_doctor" id="selected_doctor">
+                        <option value="">All Doctors</option>
+
+                        {% for doctor in doctors %}
+                        <option value="{{ doctor.id }}"
+                            {% if request.GET.selected_doctor == doctor.id|stringformat:"s" %}selected{% endif %}>
+                            {{ doctor.doc_name }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="filter-buttons">
+                    <button type="submit" class="search-btn">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+
+                    <a href="/hospital_view_patient/" class="reset-btn">
+                        <i class="fa fa-refresh"></i> Reset
+                    </a>
+                </div>
+
             </form>
-  
-            <!-- ... (previous code) ... -->
+        </section>
 
-<!-- ... (previous code) ... -->
 
-{% if bookings %}
-  <table class="table">
-    <thead>
-      <tr>
-        <!-- <th>Hospital</th> -->
-        <!-- <th>p ID</th> -->
-        <th>Patient</th>
-        <th>Doctor</th>
-        <th>Date</th>
-        <th>Time</th>
-        <!-- <th>Status</th> -->
-        <th>X-Ray Image</th>
-        <th>Covid Result</th>
-        <!-- <th>Action</th> -->
-        <!-- Add more headers as needed -->
-      </tr>
-    </thead>
-    <tbody>
-      {% for i in bookings %}
-        <tr>
-          <td>{{ i.user.uname }}</td>
-          <td>{{ i.doctor.doc_name }}</td>
-          <td>{{ i.date }}</td>
-          <td>{{ i.time }}</td>
+        <!-- Patient Records -->
+        <section class="results-section">
 
-          {% for coviddetail in patient_coviddetails %}
-            {% if coviddetail.user.id == i.user.id %}
-              
-              <td>
-                {% if coviddetail.xray_image %}
-                  <img src="{{ coviddetail.xray_image.url }}" alt="X-Ray Image" style="max-width: 100px; max-height: 100px;">
-                {% else %}
-                  No X-Ray Image
+            <div class="results-heading">
+                <div>
+                    <span class="results-label">APPOINTMENT RECORDS</span>
+                    <h3>Patient Appointment List</h3>
+                </div>
+
+                {% if bookings %}
+                <span class="result-count">
+                    <i class="fa fa-calendar-check-o"></i>
+                    {{ bookings|length }} Records
+                </span>
                 {% endif %}
-              </td>
-              <td>{{ coviddetail.covid_result }}</td>
+            </div>
+
+
+            {% if bookings %}
+
+            <div class="table-card">
+
+                <div class="table-responsive">
+
+                    <table class="patient-table">
+
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>X-Ray Image</th>
+                                <th>Covid Result</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for i in bookings %}
+
+                            <tr>
+
+                                <td>
+                                    <div class="patient-info">
+                                        <span class="patient-avatar">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                        {{ i.user.uname }}
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="doctor-name">
+                                        <i class="fa fa-user-md"></i>
+                                        {{ i.doctor.doc_name }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="date-value">{{ i.date }}</span>
+                                </td>
+
+                                <td>
+                                    <span class="time-badge">
+                                        <i class="fa fa-clock-o"></i>
+                                        {{ i.time }}
+                                    </span>
+                                </td>
+
+                                {% for coviddetail in patient_coviddetails %}
+
+                                    {% if coviddetail.user.id == i.user.id %}
+
+                                    <td>
+                                        {% if coviddetail.xray_image %}
+
+                                            <a href="{{ coviddetail.xray_image.url }}"
+                                               target="_blank"
+                                               rel="noopener"
+                                               class="xray-link">
+
+                                                <img src="{{ coviddetail.xray_image.url }}"
+                                                     alt="X-Ray Image"
+                                                     class="xray-image">
+
+                                                View Image
+                                            </a>
+
+                                        {% else %}
+
+                                            <span class="not-available">
+                                                Not Uploaded
+                                            </span>
+
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if coviddetail.covid_result %}
+
+                                            <span class="covid-badge">
+                                                {{ coviddetail.covid_result }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="not-available">
+                                                Not Available
+                                            </span>
+
+                                        {% endif %}
+                                    </td>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="table-footer">
+                    <i class="fa fa-info-circle"></i>
+                    Patient medical images are displayed when an image has been uploaded.
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <!-- No Records -->
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    <i class="fa fa-calendar-times-o"></i>
+                </div>
+
+                <h3>No Appointments Found</h3>
+
+                <p>
+                    There are no patient bookings for the selected filters.
+                </p>
+
+                <a href="/hospital_view_patient/" class="reset-btn">
+                    <i class="fa fa-refresh"></i> Clear Filters
+                </a>
+
+            </div>
+
             {% endif %}
-          {% endfor %}
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p>No bookings found.</p>
-{% endif %}
 
-<!-- ... (remaining code) ... -->
+        </section>
 
-<!-- ... (remaining code) ... -->
-
-        </div>
-      </div>
     </div>
-  </section>
-  
-  
-
+</div>
 
 {% endblock %}
